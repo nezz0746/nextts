@@ -8,12 +8,7 @@ type LaunchPageProps = {
 }
 
 const LaunchPage: NextPage<LaunchPageProps> = ({
-  launch: {
-    mission_name,
-    links: { video_link },
-    launch_date_local,
-    rocket: { rocket_name },
-  },
+  launch: { mission_name, links, launch_date_local, rocket },
 }): JSX.Element => {
   return (
     <div className="flex flex-row justify-center border-red-500 p-5">
@@ -21,7 +16,7 @@ const LaunchPage: NextPage<LaunchPageProps> = ({
         <p className="text-2xl">{mission_name}</p>
         <div className="border-b mb-2" />
         <iframe
-          src={`https://www.youtube.com/embed/${video_link.split('/').slice(-1)[0]}`}
+          src={`https://www.youtube.com/embed/${links.video_link.split('/').slice(-1)[0]}`}
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
@@ -31,7 +26,7 @@ const LaunchPage: NextPage<LaunchPageProps> = ({
         <p className="text-gray-400">
           Launch date: {dayjs(launch_date_local).format('dddd mm YYYY, hh:mm a')}
         </p>
-        <p className="text-gray-400">Rocket name: {rocket_name}</p>
+        <p className="text-gray-400">Rocket name: {rocket.rocket_name}</p>
       </div>
     </div>
   )

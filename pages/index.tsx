@@ -10,7 +10,7 @@ const IndexPage: NextPage<IndexPageProps> = ({ launches }) => {
     <div className="p-4">
       <p className="text-2xl">Launches</p>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-        {launches.map(({ id, mission_name, links: { mission_patch } }) => {
+        {launches?.map(({ id, mission_name, links: { mission_patch } }) => {
           return (
             <Link href={'/' + id} key={id}>
               <div className="border shadow-md rounded-md p-3 hover:bg-slate-50 cursor-pointer">
