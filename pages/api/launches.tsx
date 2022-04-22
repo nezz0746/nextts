@@ -3,8 +3,8 @@ import { callSpacexApi } from 'services/spacex'
 import { Launch } from 'types'
 
 const handler = async (
-  req: NextApiRequest,
-  res: NextApiResponse<Launch[] | { message: string }>
+  _req: NextApiRequest,
+  res: NextApiResponse<{ error?: { message: string; statusCode: number }; launches?: Launch[] }>
 ): Promise<void> => {
   try {
     const { launchesPast: launches } = await callSpacexApi<{ launchesPast: Launch[] }>(`
@@ -19,12 +19,12 @@ const handler = async (
     }`)
 
     if (!launches) {
-      throw new Error('Not launches found.')
+      res.json({ error: { message: 'No launches found', statusCode: 404 } })
     }
 
-    res.status(200).json(launches)
+    res.status(200).json({ launches })
   } catch (error) {
-    res.status(404).json({ message: 'No launches found' })
+    res.send({ error: { message: 'Something went wrong fetching launches', statusCode: 500 } })
   }
 }
 

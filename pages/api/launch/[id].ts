@@ -4,7 +4,7 @@ import { Launch } from 'types'
 
 const handler = async (
   req: NextApiRequest,
-  res: NextApiResponse<Launch | { message: string }>
+  res: NextApiResponse<{ error?: { message: string; statusCode: number }; launch?: Launch }>
 ): Promise<void> => {
   const launchID = req.query.id as string
 
@@ -33,12 +33,14 @@ const handler = async (
     }`)
 
     if (!launch) {
-      throw new Error('No launch found.')
+      res.send({ error: { message: `Launch ${launchID} not found`, statusCode: 404 } })
     }
 
-    res.status(200).json(launch)
+    res.status(200).json({ launch })
   } catch (error) {
-    res.status(404).json({ message: 'No launch found' })
+    res.send({
+      error: { message: `Something went wrong fetching launch ${launchID}`, statusCode: 500 },
+    })
   }
 }
 

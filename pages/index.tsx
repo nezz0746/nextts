@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext, NextPage } from 'next'
 import Link from 'next/link'
-import { Launch } from '../types'
+import { Launch } from 'types'
 
 interface IndexPageProps {
   launches: Launch[]
@@ -31,11 +31,7 @@ export async function getServerSideProps(
   context: GetServerSidePropsContext
 ): Promise<{ props: IndexPageProps }> {
   return {
-    props: {
-      launches: await fetch(`http://${context.req.headers.host}/api/launches`).then((res) =>
-        res.json()
-      ),
-    },
+    props: await fetch(`http://${context.req.headers.host}/api/launches`).then((res) => res.json()),
   }
 }
 

@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { GetServerSidePropsContext, NextPage } from 'next'
 import React from 'react'
-import { Launch } from '../../types'
+import { Launch } from 'types'
 
 type LaunchPageProps = {
   launch: Launch
@@ -40,14 +40,10 @@ const LaunchPage: NextPage<LaunchPageProps> = ({
 export async function getServerSideProps(
   context: GetServerSidePropsContext
 ): Promise<{ props: LaunchPageProps }> {
-  const launch = await fetch(
-    `http://${context.req.headers.host}/api/launch/${context.query.id}`
-  ).then((res) => res.json())
-
   return {
-    props: {
-      launch,
-    },
+    props: await fetch(`http://${context.req.headers.host}/api/launch/${context.query.id}`).then(
+      (res) => res.json()
+    ),
   }
 }
 
